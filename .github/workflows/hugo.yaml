@@ -48,8 +48,18 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
-      - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          # The action defaults to search for the dependency file (package-lock.json,
+          # npm-shrinkwrap.json or yarn.lock) in the repository root, and uses its
+          # hash as a part of the cache key.
+          # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
+          cache-dependency-path: '**/package-lock.json'
+
+      # - name: Install Node.js dependencies
+      #   run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
         # uses: actions/setup-node@v4
         # with:
         #   node-version: '20'
@@ -60,10 +70,10 @@ jobs:
         #   # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-data
         #   cache-dependency-path: '**/package-lock.json'
       - name: Build with Hugo
-        # env:
-        #   # For maximum backward compatibility with Hugo modules
-        #   HUGO_ENVIRONMENT: production
-        #   HUGO_ENV: production
+        env:
+          # For maximum backward compatibility with Hugo modules
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
         run: |
           hugo \
             --gc \
