@@ -1,6 +1,6 @@
 ---
-title: Documentation
-linkTitle: Docs
+title: База знаний
+linkTitle: База знаний
 menu: {main: {weight: 20}}
 weight: 20
 ---
